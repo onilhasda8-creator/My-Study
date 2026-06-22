@@ -1,0 +1,4 @@
+// Note: add to [libraries] in libs.versions.toml:
+// mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version = "5.2.1" }
+// Then add to app/build.gradle.kts testImplementation:
+// testImplementation(libs.mockito.kotlin)
