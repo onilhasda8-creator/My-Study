@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Book icon representing the study planner -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,20 L78,20 Q82,20 82,24 L82,84 Q82,88 78,88 L30,88 Q26,88 26,84 L26,24 Q26,20 30,20 Z" />
+    <path
+        android:fillColor="#4A45C0"
+        android:pathData="M34,30 L74,30 L74,36 L34,36 Z" />
+    <path
+        android:fillColor="#4A45C0"
+        android:pathData="M34,44 L74,44 L74,50 L34,50 Z" />
+    <path
+        android:fillColor="#4A45C0"
+        android:pathData="M34,58 L60,58 L60,64 L34,64 Z" />
+    <path
+        android:fillColor="#6750A4"
+        android:pathData="M26,20 L30,20 L30,88 L26,88 Z" />
+</vector>
