@@ -25,6 +25,34 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          restore-keys: gradle-${{ runner.os }}-
+
+      - name: Create placeholder launcher icons
+        run: |
+          for dpi in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+            mkdir -p app/src/main/res/mipmap-$dpi
+            cp app/src/main/res/drawable/ic_launcher_background.xml \
+               app/src/main/res/mipmap-$dpi/ic_launcher.xml 2>/dev/null || \
+            echo '<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@color/white"/></adaptive-icon>' \
+               > app/src/main/res/mipmap-$dpi/ic_launcher.xml
+            cp app/src/main/res/mipmap-$dpi/ic_launcher.xml \
+               app/src/main/res/mipmap-$dpi/ic_launcher_round.xml
+          done
+
+      - name: Create white color resource if missing
+        run: |
+          mkdir -p app/src/main/res/values
+          if ! grep -q 'white' app/src/main/res/values/colors.xml 2>/dev/null; then
+            echo '<?xml version="1.0" encoding="utf-8"?><resources><color name="white">#FFFFFF</color></resources>' \
+              > app/src/main/res/values/colors.xml
+          fi
+
       - name: Install Gradle 8.7
         uses: gradle/actions/setup-gradle@v3
         with:
