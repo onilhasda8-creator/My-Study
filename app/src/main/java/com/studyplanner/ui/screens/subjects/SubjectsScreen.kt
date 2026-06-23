@@ -17,12 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.studyplanner.data.model.Subject
 import com.studyplanner.ui.components.EmptyStateMessage
 import com.studyplanner.ui.components.SubjectColorDot
+import com.studyplanner.ui.theme.StudyPlannerTheme
 import com.studyplanner.ui.theme.SubjectColors
 import com.studyplanner.viewmodel.SubjectViewModel
 
@@ -135,9 +137,7 @@ fun SubjectDialog(
     onSave: (name: String, colorHex: String) -> Unit
 ) {
     var name by remember { mutableStateOf(subject?.name ?: "") }
-    var selectedColor by remember {
-        mutableStateOf(subject?.colorHex ?: "#4A45C0")
-    }
+    var selectedColor by remember { mutableStateOf(subject?.colorHex ?: "#4A45C0") }
     var nameError by remember { mutableStateOf(false) }
 
     AlertDialog(
@@ -170,7 +170,6 @@ fun SubjectDialog(
                                     else Modifier
                                 )
                                 .clickable {
-                                    // Store as full ARGB hex for parsing
                                     selectedColor = "#%06X".format(color.value.toLong() and 0xFFFFFF)
                                 }
                         )
@@ -190,21 +189,15 @@ fun SubjectDialog(
     )
 }
 
-// ---------------------------------------------------------------------------
-// Previews
-// ---------------------------------------------------------------------------
-import androidx.compose.ui.tooling.preview.Preview
-import com.studyplanner.ui.theme.StudyPlannerTheme
-
 @Preview(showBackground = true, name = "SubjectCard – with study time")
 @Composable
 private fun SubjectCardPreview() {
     StudyPlannerTheme {
         SubjectCard(
-            subject           = Subject(id = 1, name = "Mathematics", colorHex = "#4A45C0"),
-            studyMinutesFlow  = kotlinx.coroutines.flow.flowOf(95),
-            onEdit            = {},
-            onDelete          = {}
+            subject = Subject(id = 1, name = "Mathematics", colorHex = "#4A45C0"),
+            studyMinutesFlow = kotlinx.coroutines.flow.flowOf(95),
+            onEdit = {},
+            onDelete = {}
         )
     }
 }
