@@ -37,21 +37,14 @@ jobs:
         run: |
           for dpi in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
             mkdir -p app/src/main/res/mipmap-$dpi
-            cp app/src/main/res/drawable/ic_launcher_background.xml \
-               app/src/main/res/mipmap-$dpi/ic_launcher.xml 2>/dev/null || \
             echo '<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@color/white"/></adaptive-icon>' \
-               > app/src/main/res/mipmap-$dpi/ic_launcher.xml
+              > app/src/main/res/mipmap-$dpi/ic_launcher.xml
             cp app/src/main/res/mipmap-$dpi/ic_launcher.xml \
                app/src/main/res/mipmap-$dpi/ic_launcher_round.xml
           done
-
-      - name: Create white color resource if missing
-        run: |
           mkdir -p app/src/main/res/values
-          if ! grep -q 'white' app/src/main/res/values/colors.xml 2>/dev/null; then
-            echo '<?xml version="1.0" encoding="utf-8"?><resources><color name="white">#FFFFFF</color></resources>' \
-              > app/src/main/res/values/colors.xml
-          fi
+          echo '<?xml version="1.0" encoding="utf-8"?><resources><color name="white">#FFFFFF</color></resources>' \
+            > app/src/main/res/values/colors.xml
 
       - name: Install Gradle 8.7
         uses: gradle/actions/setup-gradle@v3
@@ -59,7 +52,10 @@ jobs:
           gradle-version: '8.7'
 
       - name: Build debug APK
-        run: gradle assembleDebug --no-daemon --stacktrace
+        run: gradle assembleDebug --no-daemon --stacktrace --info 2>&1 | grep -E "error:|warning:|compileDebug" | head -60
+
+      - name: Build debug APK (full)
+        run: gradle assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
