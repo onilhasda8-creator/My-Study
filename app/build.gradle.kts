@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.studyplanner"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.studyplanner"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0.0"
 
@@ -41,6 +41,9 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
+        freeCompilerArgs += listOf(
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+        )
     }
 
     buildFeatures {
@@ -52,13 +55,6 @@ android {
             isIncludeAndroidResources = true
         }
     }
-}
-
-// Export Room schema for migration tracking
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
-    arg("room.incremental", "true")
-    arg("room.expandProjection", "true")
 }
 
 dependencies {
@@ -95,7 +91,6 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.androidx.room.testing)
-    testImplementation(libs.mockito.kotlin)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
